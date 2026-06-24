@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="128" height="128">
+  <defs>
+    <!-- Background / Shield base gradient (Royal Blue to Indigo) -->
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+    <!-- Swoosh gradients (Bright Blue to Indigo/Violet) -->
+    <linearGradient id="swooshGrad1" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#60a5fa" />
+      <stop offset="100%" stop-color="#4f46e5" />
+    </linearGradient>
+    <linearGradient id="swooshGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+  </defs>
+
+  <!-- Shield Base Shape -->
+  <path fill="url(#shieldGrad)" d="M 50 12 C 64 16, 78 13, 78 13 C 78 13, 83 45, 78 62 C 73 78, 50 88, 50 88 C 50 88, 27 78, 22 62 C 17 45, 22 13, 22 13 C 22 13, 36 16, 50 12 Z" />
+
+  <!-- Shield Inner Dark Core (using the dark background color of our extension) -->
+  <path fill="#080c14" d="M 50 18 C 62 21, 74 19, 74 19 C 74 19, 78 45, 74 60 C 69 74, 50 83, 50 83 C 50 83, 31 74, 26 60 C 22 45, 26 19, 26 19 C 26 19, 38 21, 50 18 Z" />
+
+  <!-- Swoosh 1 (Upper main swoosh) -->
+  <path fill="url(#swooshGrad1)" d="M 18 55 C 28 35, 55 28, 82 32 C 65 36, 45 46, 35 62 C 30 68, 22 64, 18 55 Z" />
+
+  <!-- Swoosh 2 (Lower inner swoosh) -->
+  <path fill="url(#swooshGrad2)" d="M 40 48 C 50 40, 62 36, 75 36 C 63 42, 52 50, 48 58 C 45 62, 42 58, 40 48 Z" />
+</svg>

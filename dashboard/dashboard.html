@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PrivacyLens - Site Privacy Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="shieldGradDashboard" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3b82f6" />
+              <stop offset="100%" stop-color="#6366f1" />
+            </linearGradient>
+            <linearGradient id="swooshGrad1Dashboard" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#60a5fa" />
+              <stop offset="100%" stop-color="#4f46e5" />
+            </linearGradient>
+            <linearGradient id="swooshGrad2Dashboard" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#3b82f6" />
+              <stop offset="100%" stop-color="#7c3aed" />
+            </linearGradient>
+          </defs>
+          <path fill="url(#shieldGradDashboard)" d="M 50 12 C 64 16, 78 13, 78 13 C 78 13, 83 45, 78 62 C 73 78, 50 88, 50 88 C 50 88, 27 78, 22 62 C 17 45, 22 13, 22 13 C 22 13, 36 16, 50 12 Z" />
+          <path fill="#080c14" d="M 50 18 C 62 21, 74 19, 74 19 C 74 19, 78 45, 74 60 C 69 74, 50 83, 50 83 C 50 83, 31 74, 26 60 C 22 45, 26 19, 26 19 C 26 19, 38 21, 50 18 Z" />
+          <path fill="url(#swooshGrad1Dashboard)" d="M 18 55 C 28 35, 55 28, 82 32 C 65 36, 45 46, 35 62 C 30 68, 22 64, 18 55 Z" />
+          <path fill="url(#swooshGrad2Dashboard)" d="M 40 48 C 50 40, 62 36, 75 36 C 63 42, 52 50, 48 58 C 45 62, 42 58, 40 48 Z" />
+        </svg>
+        <span class="logo-text">PrivacyLens</span>
+      </div>
+      <div class="sidebar-info">
+        <p class="sidebar-desc">Deep-dive technical privacy analytics, tracking inspection, and cookie audit report.</p>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="sidebar-menu">
+        <a href="#section-score" class="menu-item active">
+          <span class="menu-icon">📊</span> Score Overview
+        </a>
+        <a href="#section-telemetry" class="menu-item">
+          <span class="menu-icon">📈</span> Telemetry Stats
+        </a>
+        <a href="#section-deductions" class="menu-item">
+          <span class="menu-icon">⚠️</span> Risk Deductions
+        </a>
+        <a href="#section-cookies" class="menu-item">
+          <span class="menu-icon">🍪</span> Detailed Cookie Audit
+        </a>
+        <a href="#section-history" class="menu-item">
+          <span class="menu-icon">📜</span> Scan History
+        </a>
+      </nav>
+
+      <!-- Active Protection Widget -->
+      <div class="sidebar-widget">
+        <h4 class="widget-title">Shield Status</h4>
+        <div class="widget-status-row">
+          <div id="widget-shield-indicator" class="status-dot"></div>
+          <span id="widget-shield-text" class="status-txt">Shields Disabled</span>
+        </div>
+        <p class="widget-desc">Active protection spoofs hardware calls & canvas queries to block fingerprinting.</p>
+      </div>
+
+      <div class="sidebar-footer">
+        <span>PrivacyLens Dashboard v1.0</span>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="content-area">
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="site-header-info">
+          <h1 id="domain-title" class="domain-title">Loading Site...</h1>
+          <p id="scan-time-txt" class="scan-time-txt">Scan executed: Just now</p>
+        </div>
+        <div class="badge-row">
+          <button id="download-pdf-btn" class="action-btn print-btn">📥 Download as PDF</button>
+          
+          <div id="dashboard-shield-container" class="shield-toggle-container active">
+            <svg class="active-shield-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="dashboardActiveShieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="currentColor" />
+                  <stop offset="100%" stop-color="currentColor" stop-opacity="0.8" />
+                </linearGradient>
+              </defs>
+              <path fill="url(#dashboardActiveShieldGrad)" d="M 50 12 C 64 16, 78 13, 78 13 C 78 13, 83 45, 78 62 C 73 78, 50 88, 50 88 C 50 88, 27 78, 22 62 C 17 45, 22 13, 22 13 C 22 13, 36 16, 50 12 Z" />
+              <path fill="#080c14" class="shield-inner-bg" d="M 50 18 C 62 21, 74 19, 74 19 C 74 19, 78 45, 74 60 C 69 74, 50 83, 50 83 C 50 83, 31 74, 26 60 C 22 45, 26 19, 26 19 C 26 19, 38 21, 50 18 Z" />
+              <path fill="currentColor" opacity="0.9" d="M 18 55 C 28 35, 55 28, 82 32 C 65 36, 45 46, 35 62 C 30 68, 22 64, 18 55 Z" />
+              <path fill="currentColor" opacity="0.75" d="M 40 48 C 50 40, 62 36, 75 36 C 63 42, 52 50, 48 58 C 45 62, 42 58, 40 48 Z" />
+            </svg>
+            <span class="shield-toggle-text">Active Protection</span>
+            <label class="switch">
+              <input type="checkbox" id="active-shields-toggle">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <span id="protocol-badge" class="badge badge-secure">HTTPS</span>
+          <span id="risk-badge" class="badge-risk risk-unknown">Risk: Unknown</span>
+        </div>
+      </header>
+
+      <!-- Main Grid Layout -->
+      <div class="dashboard-grid">
+        
+        <!-- Score Circular Section -->
+        <section id="section-score" class="grid-card score-main-card">
+          <h2 class="card-title">Privacy Score</h2>
+          <div class="score-container">
+            <div class="score-radial">
+              <svg viewBox="0 0 36 36" class="circular-chart">
+                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path id="score-ring" class="circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+              </svg>
+              <div class="score-inner">
+                <span id="score-value" class="score-number">--</span>
+                <span class="score-total">/100</span>
+              </div>
+            </div>
+            <div class="score-summary-details">
+              <h3 id="score-headline" class="score-headline">Not Scanned</h3>
+              <p id="score-desc" class="score-desc">This site has not been analyzed yet. Open the extension popup on the site and click "Analyze" to inspect.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Stats Overview Cards -->
+        <section id="section-telemetry" class="grid-card stats-overview-card">
+          <h2 class="card-title">Telemetry Summary</h2>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-icon">🍪</div>
+              <div class="stat-content">
+                <span class="stat-label">Total Cookies</span>
+                <span id="stat-cookies" class="stat-value">--</span>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon">🕵️‍♂️</div>
+              <div class="stat-content">
+                <span class="stat-label">Trackers Detected</span>
+                <span id="stat-trackers" class="stat-value">--</span>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon">📜</div>
+              <div class="stat-content">
+                <span class="stat-label">Scripts Loaded</span>
+                <span id="stat-scripts" class="stat-value">--</span>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon">📂</div>
+              <div class="stat-content">
+                <span class="stat-label">Storage Entries</span>
+                <span id="stat-storage" class="stat-value">--</span>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon">💻</div>
+              <div class="stat-content">
+                <span class="stat-label">Fingerprint Attempts</span>
+                <span id="stat-fingerprints" class="stat-value">--</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Score Deductions / Warnings -->
+        <section id="section-deductions" class="grid-card full-width-card deductions-card">
+          <h2 class="card-title">Privacy Risk Deductions</h2>
+          <div id="deductions-list" class="deductions-list">
+            <div class="no-deductions-msg">No deductions. This site is perfectly secure.</div>
+          </div>
+        </section>
+
+        <!-- Trackers List Card -->
+        <section class="grid-card trackers-card">
+          <h2 class="card-title">Trackers & Analytics Found</h2>
+          <div id="trackers-list-container" class="trackers-list-container">
+            <div class="empty-list-msg">No known analytics trackers detected on this site.</div>
+          </div>
+        </section>
+
+        <!-- Fingerprinting List Card -->
+        <section class="grid-card trackers-card">
+          <h2 class="card-title">Fingerprinting Attempts Detected</h2>
+          <div id="fingerprints-list-container" class="trackers-list-container">
+            <div class="empty-list-msg">No device fingerprinting API access detected.</div>
+          </div>
+        </section>
+
+        <!-- Recommendations/Tips Card -->
+        <section class="grid-card recommendations-card">
+          <h2 class="card-title">Privacy Recommendations</h2>
+          <div id="recommendations-container" class="recommendations-container">
+            <div class="empty-list-msg">No recommendations available. Please scan a site first.</div>
+          </div>
+        </section>
+
+        <!-- Cookies Table Card -->
+        <section id="section-cookies" class="grid-card full-width-card cookies-table-card">
+          <div class="card-header-with-actions">
+            <h2 class="card-title">Detailed Cookie Audit</h2>
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+              <button id="purge-trackers-btn" class="action-btn danger-btn" style="background: linear-gradient(135deg, #f59e0b, #ef4444); color: white; border: none; font-size: 0.85rem; padding: 6px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-weight: 500; transition: transform 0.2s;">
+                🛡️ Purge Trackers Only
+              </button>
+              <button id="purge-all-cookies-btn" class="action-btn danger-btn" style="background: rgba(239, 44, 44, 0.1); border: 1px dashed rgba(239, 44, 44, 0.5); color: #f87171; font-size: 0.85rem; padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s;">
+                🗑️ Clear All Cookies
+              </button>
+              <div class="search-box">
+                <input type="text" id="cookie-search" placeholder="Filter cookies by name/domain...">
+              </div>
+            </div>
+          </div>
+          <div class="table-scroll-container">
+            <table class="cookies-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Domain</th>
+                  <th>Category</th>
+                  <th>Path</th>
+                  <th>HTTP Only</th>
+                  <th>Secure</th>
+                  <th>Session</th>
+                  <th>Expiration</th>
+                </tr>
+              </thead>
+              <tbody id="cookies-table-body">
+                <tr>
+                  <td colspan="8" class="empty-table-msg">No cookie data loaded.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        
+        <!-- Recent Scans History Card -->
+        <section id="section-history" class="grid-card full-width-card history-card">
+          <div class="card-header-with-actions">
+            <h2 class="card-title">Recent Scans History</h2>
+            <button id="clear-history-btn" class="action-btn danger-btn">🗑️ Clear History</button>
+          </div>
+          <div class="table-scroll-container">
+            <table class="cookies-table">
+              <thead>
+                <tr>
+                  <th>Domain</th>
+                  <th>Risk Level</th>
+                  <th>Score</th>
+                  <th>Trackers</th>
+                  <th>Scan Time</th>
+                </tr>
+              </thead>
+              <tbody id="history-table-body">
+                <tr>
+                  <td colspan="5" class="empty-table-msg">No scan history available.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        
+      </div>
+    </main>
+  </div>
+  <script src="dashboard.js"></script>
+</body>
+</html>
