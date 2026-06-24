@@ -1,60 +1,154 @@
 # PrivacyLens 🛡️
 
-> **Know what websites know about you.** A modern, high-performance Chrome extension designed to scan webpages for tracking telemetry, audit cookies, and spoof profiling APIs in real-time to defend against device fingerprinting.
+> **Know what websites know about you.** A modern, SaaS-style high-performance Chrome extension designed to scan webpages for tracking telemetry, audit cookies, and spoof profiling APIs in real-time to defend against device fingerprinting.
 
 ---
 
-## 🌟 Key Features
+## 📸 Interface Showcase
 
-### 1. Active Protection Shields
-- **Canvas Protection**: Adds sub-perceptual noise to canvas reads (`toDataURL`, `getImageData`) to disrupt canvas-based tracking hashes without breaking visual layouts.
-- **Hardware/System Spoofing**: Obfuscates system characteristics like `navigator.hardwareConcurrency`, `navigator.deviceMemory`, and active browser plugins.
-- **Screen Coordinate Masking**: Standardizes screen metrics (`width`, `height`, `colorDepth`, `pixelDepth`) to generic dimensions (e.g. 1920x1080) to prevent viewport profiling.
-- **Clipboard Hijacking Blocker**: Detects and blocks malicious scripts trying to write to the system clipboard without explicit user interaction.
-- **WebGL Interception**: Logs WebGL pixel read attempts (`readPixels`) to monitor 3D graphics profiling.
+### 1. SaaS-style Analytics Dashboard (`dashboard_img_1`)
+The full-page dashboard compiles real-time cookie audits, history logs, and tracker category details into an interactive analytical layout.
 
-### 2. Telemetry Scanner
-- **Privacy Scoring**: Computes a dynamic score (0 to 100) based on page protocol (HTTPS/HTTP), third-party tracking beacons, cookie load sizes, and script counts.
-- **Script Tracker Signatures**: Identifies popular advertising/analytics script networks like Google Tag Manager, Facebook Pixel, Google Analytics, Hotjar, Hubspot, and others.
-
-### 3. SaaS-style Analytics Dashboard
-- **Cookie Audit Table**: Inspects, searches, and categorizes cookies (Tracker, Essential, Utility).
-- **Tracker Purging**: Lets users instantly clear tracking cookies with one click while keeping essential login sessions alive.
-- **Scan History**: Retains past scan history locally to help users track website profiles over time.
-- **PDF Report Exporters**: Supports printing clean, landscape-optimized analytical reports for audits.
+![PrivacyLens SaaS Dashboard](assets/Dashboard_img%201.png)
 
 ---
 
-## 🛠️ Architecture & Under the Hood
+### 2. Extension Popup UI (`extension_img_2`)
+The browser action popup provides a rapid diagnostic view of the active tab's safety rating, running shields, and quick toggle controls.
 
-PrivacyLens is built on **Manifest V3** and utilizes a multi-layered script model:
+<p align="left">
+  <img src="assets/extension_img%202.png" width="350" alt="PrivacyLens Popup UI" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+</p>
+
+---
+
+## 🌟 Core Features & Highlights
+
+### 📋 Deep Feature Highlights
+
+| Feature | Description | Key Highlight |
+| :--- | :--- | :--- |
+| **📥 PDF Audit Reports** | Exports the entire SaaS analytics dashboard into a clean, landscape-optimized audit report format. | **One-click print/PDF save with tailored styling!** |
+| **🧹 Tracker Purging** | Instantly purges non-essential advertising and analytics cookies without disturbing active user logins. | **Intelligent cookie classifier!** |
+| **🎭 Canvas Spoofing** | Injects sub-perceptual noise into `<canvas>` pixel read API methods to scramble browser fingerprint signatures. | **Zero layout disruption!** |
+| **🛡️ WebGL & System Obfuscation** | Spoofs navigator attributes like hardware cores, memory size, and logs raw WebGL telemetry probes. | **Anti-fingerprinting engine!** |
+| **📊 Dynamic Privacy Scoring** | Computes a real-time score (0 to 100) reflecting tracking hazards, SSL usage, and cookie payloads. | **Color-coded threat dials!** |
+
+---
+
+### 🛡️ Detailed Features Breakdown
+
+#### 1. Real-time Telemetry & API Spoofing
+*   **Anti-Fingerprinting Engine**: Intercepts canvas pixel retrieval (`toDataURL`, `getImageData`) and applies slight noise modifications to randomize hashing.
+*   **WebGL Read Detection**: Hooks WebGL pixel reading arrays to alert users when scripts probe graphical processing details.
+*   **System Attribute Masking**: Spoofs `navigator.deviceMemory`, `navigator.hardwareConcurrency`, and screen specifications to standardize standard specifications (e.g., 1920x1080 resolution).
+*   **Clipboard Safeguard**: Intercepts automated copy-to-clipboard commands to prevent websites from hijacking clipboard content.
+
+#### 2. Advanced Cookie & Purging Engine
+*   **Audit Table**: Grouping and sorting of cookies into Tracker, Essential, and Utility categories based on tracking patterns.
+*   **Targeted Cookie Purge**: Destroys cookies identified as analytics/advertising trackers, instantly restoring local state privacy.
+*   **Persistence & History**: Local tracking historical logs stored securely inside the browser (`chrome.storage.local`).
+
+#### 3. 📥 Landscape-Optimized PDF Report Export
+*   **Instant Export**: Generate portable audit documents using the `Download as PDF` button.
+*   **Custom Print Engine CSS**: Clean print-media queries hide navigation components and optimize layout formatting, offering high-fidelity hardcopies.
+
+---
+
+## 🔄 Dynamic Data & Execution Flow
+
+To protect user privacy seamlessly, PrivacyLens coordinates execution across multiple Sandboxed Worlds:
+
+### 1. Architectural Runtime Flow
+This flowchart maps the initialization of API hooks and how telemetry events flow from the DOM to the User Interfaces.
+
 ```mermaid
-graph TD
-    A[Webpage / DOM] <-->|Hooked APIs| B[content.js MAIN World]
-    C[popup.js Extension Popup] -->|chrome.scripting| B
-    D[dashboard.js Full Report] -->|chrome.scripting| B
-    C <-->|chrome.runtime| E[background.js Service Worker]
-    D <-->|chrome.runtime| E
-    E <-->|chrome.storage.local| E
+flowchart TD
+    classDef main fill:#e0f2fe,stroke:#0284c7,stroke-width:2px;
+    classDef bg fill:#f3e8ff,stroke:#7c3aed,stroke-width:2px;
+    classDef ui fill:#fef9c3,stroke:#ca8a04,stroke-width:2px;
+    classDef storage fill:#dcfce7,stroke:#16a34a,stroke-width:2px;
+    
+    A["🌐 Webpage Load (Target Site)"] -->|1. Injects content.js at document_start| B["🛡️ content.js (MAIN World)"]:::main
+    B -->|2. Overrides Prototypes| C["Canvas, Navigator, Screen, WebGL APIs"]:::main
+    
+    C -->|Scrambles tracking attempt| D["🎭 Apply Noise & Standardize Screen Specs"]:::main
+    C -->|Detects known scripts| E["🔍 Matches Ads / Analytics Signature list"]:::main
+    
+    D -->|3. Sends chrome.runtime Telemetry| F["background.js Service Worker"]:::bg
+    E -->|3. Sends chrome.runtime Telemetry| F
+    
+    F -->|4. Stores tab history| G["💾 chrome.storage.local DB"]:::storage
+    
+    G -->|5. Subscribes to updates| H["📱 Extension Popup (popup.js)"]:::ui
+    G -->|5. Subscribes to updates| I["📊 SaaS Dashboard (dashboard.js)"]:::ui
+    
+    I -->|Action: Clear trackers| J["🧹 Deletes cookies matching tracker patterns"]:::bg
+    I -->|Action: PDF report| K["📄 Triggers window.print() landscape stylesheet"]:::ui
+    
+    class B,C,D,E main;
+    class F,J bg;
+    class H,I,K ui;
+    class G storage;
 ```
 
-- **`content.js` (MAIN World, runs at `document_start`)**: Injected directly into the website's execution context. This allows it to hook JavaScript prototype getters/setters before the webpage's own scripts load.
-- **`popup.js` (Popup Interface)**: Provides a quick view of the active tab's privacy score and toggles shields.
-- **`dashboard.js` (Dashboard Tab)**: Renders deep analytical graphs, lists, scan history, and manages cookie purge operations. Synchronizes state updates in real-time using `chrome.storage.onChanged`.
-- **`background.js` (Service Worker)**: Serves as the persistent database agent, coordinating local storage changes and caching historical scan statistics.
+### 2. Lifespan Sequence Diagram
+The sequential messaging between components during page browsing and user actions:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Browser User
+    participant Webpage as Target Webpage
+    participant CS as content.js (Main World)
+    participant BG as background.js (Service Worker)
+    participant Popup as popup.js (Popup UI)
+    participant DB as dashboard.js (Dashboard UI)
+
+    Note over CS, Webpage: Initialization Phase (document_start)
+    CS->>Webpage: Override Web APIs (Canvas, Navigator, WebGL)
+    Webpage->>CS: Script attempts tracking / fingerprinting
+    CS-->>CS: Spoof API response & generate alert telemetry
+    CS->>BG: Report detected trackers & spoof events (chrome.runtime)
+    BG-->>BG: Update storage (active tab state & history)
+
+    Note over User, Popup: Inspection & Controls
+    User->>Popup: Clicks Extension Icon
+    Popup->>BG: Query active tab details
+    BG->>Popup: Returns privacy score, blocked trackers, shield statuses
+    Popup->>User: Display UI with real-time gauges & toggle controls
+    
+    Note over User, DB: Deep Analytics & Actions
+    User->>Popup: Clicks "View Detailed Report"
+    Popup->>User: Opens dashboard.html in new tab
+    DB->>BG: Query historical scan data & cookies
+    BG->>DB: Send data payload
+    DB->>User: Renders full SaaS Dashboard (charts, cookie audits)
+    
+    alt Purging Trackers
+        User->>DB: Clicks "Purge Trackers"
+        DB->>BG: Request tracking cookie deletion
+        BG->>BG: Identify & delete non-essential cookies
+        BG->>DB: Confirmation & updated cookie list
+        DB->>User: Update UI (Score increases!)
+    else PDF Audit Export
+        User->>DB: Clicks "Download as PDF"
+        DB->>User: Triggers window.print() with custom @media print layout
+    end
+```
 
 ---
 
 ## 🚀 Installation & Local Setup
 
-Since PrivacyLens is currently in development, you can load and run it locally as an unpacked extension:
+Since PrivacyLens is loaded locally as an unpacked extension:
 
-1. Clone or download this repository to your machine.
+1. Clone or download this repository.
 2. Open Google Chrome and navigate to `chrome://extensions/`.
-3. In the top-right corner, toggle **Developer mode** to **ON**.
-4. Click the **Load unpacked** button in the top-left corner.
+3. Toggle **Developer mode** in the top-right corner to **ON**.
+4. Click **Load unpacked** in the top-left corner.
 5. Select the root folder of this repository (the folder containing `manifest.json`).
-6. The PrivacyLens icon will appear in your extension bar. Pin it and start browsing!
+6. Pin PrivacyLens to your extension bar and begin browsing securely!
 
 ---
 
@@ -65,6 +159,12 @@ PrivacyLens/
 ├── manifest.json       # Extension configuration & MV3 permission gates
 ├── background.js       # Background service worker (state cache and APIs)
 ├── content.js          # Main world runtime hooks (API spoofing & telemetry)
+├── assets/             # Extension & Dashboard preview screenshots
+│   ├── Dashboard_img 1.png
+│   ├── Dashboard_img 2.png
+│   ├── Dashboard_img 3.png
+│   ├── extension_img 1.png
+│   └── extension_img 2.png
 ├── icons/              # Brand graphic assets and logo files
 │   └── icon.svg        # Rebranded Royal Blue/Indigo vector logo
 ├── popup/              # Chrome extension dropdown interface
@@ -81,4 +181,5 @@ PrivacyLens/
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License.
+
