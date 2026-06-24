@@ -2,6 +2,10 @@
 
 > **Know what websites know about you.** A modern, high-performance Chrome extension designed to scan webpages for tracking telemetry, audit cookies, and spoof profiling APIs in real-time to defend against device fingerprinting.
 
+## 📸 Dashboard Preview
+
+![PrivacyLens Dashboard](assets/dashboard.png)
+
 ---
 
 ## 🌟 Key Features
