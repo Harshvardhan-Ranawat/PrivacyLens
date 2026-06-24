@@ -64,32 +64,22 @@ This flowchart maps the initialization of API hooks and how telemetry events flo
 
 ```mermaid
 flowchart TD
-    classDef main fill:#e0f2fe,stroke:#0284c7,stroke-width:2px;
-    classDef bg fill:#f3e8ff,stroke:#7c3aed,stroke-width:2px;
-    classDef ui fill:#fef9c3,stroke:#ca8a04,stroke-width:2px;
-    classDef storage fill:#dcfce7,stroke:#16a34a,stroke-width:2px;
+    A(["🌐 Webpage Load (Target Site)"]) -->|1. Injects content.js at document_start| B["🛡️ content.js (MAIN World)"]
+    B -->|2. Overrides Prototypes| C["Canvas, Navigator, Screen, WebGL APIs"]
     
-    A["🌐 Webpage Load (Target Site)"] -->|1. Injects content.js at document_start| B["🛡️ content.js (MAIN World)"]:::main
-    B -->|2. Overrides Prototypes| C["Canvas, Navigator, Screen, WebGL APIs"]:::main
+    C -->|Scrambles tracking attempt| D["🎭 Apply Noise & Standardize Screen Specs"]
+    C -->|Detects known scripts| E["🔍 Matches Ads / Analytics Signature list"]
     
-    C -->|Scrambles tracking attempt| D["🎭 Apply Noise & Standardize Screen Specs"]:::main
-    C -->|Detects known scripts| E["🔍 Matches Ads / Analytics Signature list"]:::main
-    
-    D -->|3. Sends chrome.runtime Telemetry| F["background.js Service Worker"]:::bg
+    D -->|3. Sends chrome.runtime Telemetry| F["background.js Service Worker"]
     E -->|3. Sends chrome.runtime Telemetry| F
     
-    F -->|4. Stores tab history| G["💾 chrome.storage.local DB"]:::storage
+    F -->|4. Stores tab history| G[("💾 chrome.storage.local DB")]
     
-    G -->|5. Subscribes to updates| H["📱 Extension Popup (popup.js)"]:::ui
-    G -->|5. Subscribes to updates| I["📊 SaaS Dashboard (dashboard.js)"]:::ui
+    G -->|5. Subscribes to updates| H["📱 Extension Popup (popup.js)"]
+    G -->|5. Subscribes to updates| I["📊 SaaS Dashboard (dashboard.js)"]
     
-    I -->|Action: Clear trackers| J["🧹 Deletes cookies matching tracker patterns"]:::bg
-    I -->|Action: PDF report| K["📄 Triggers window.print() landscape stylesheet"]:::ui
-    
-    class B,C,D,E main;
-    class F,J bg;
-    class H,I,K ui;
-    class G storage;
+    I -->|Action: Clear trackers| J[["🧹 Deletes cookies matching tracker patterns"]]
+    I -->|Action: PDF report| K["📄 Triggers window.print() landscape stylesheet"]
 ```
 
 ### 2. Lifespan Sequence Diagram
