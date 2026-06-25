@@ -1,6 +1,6 @@
 # PrivacyLens 🛡️
 
-> **Know what websites know about you.** A modern, SaaS-style high-performance Chrome extension designed to scan webpages for tracking telemetry, audit cookies, and spoof profiling APIs in real-time to defend against device fingerprinting.
+> **Know what websites know about you.** A modern, SaaS-style high-performance Chrome extension designed to scan webpages for tracking telemetry, audit cookies, and analyze browser privacy signals, providing insights into tracking behavior with a modular architecture designed for future runtime behavior analysis.
 
 ---
 
